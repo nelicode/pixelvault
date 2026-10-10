@@ -1,5 +1,45 @@
 import { Storage } from './storage.js';
 
+const STORE_NAMES = {
+    1: 'Steam',
+    2: 'GamersGate',
+    3: 'GreenManGaming',
+    4: 'Amazon',
+    5: 'GameStop',
+    6: 'Direct2Drive',
+    7: 'GOG',
+    8: 'Origin',
+    9: 'GamersGate',
+    10: 'GameStop',
+    11: 'Humble Store',
+    12: 'IndieGala',
+    13: 'Uplay',
+    14: 'Fanatical',
+    15: 'Gamesplanet',
+    16: 'Gamesload',
+    17: 'Gametap',
+    18: 'GameStop',
+    19: 'GameStop',
+    20: 'GameStop',
+    21: 'WinGameStore',
+    22: 'GameBillet',
+    23: 'GameBillet',
+    24: 'Voidu',
+    25: 'Epic Games',
+    26: 'Gamesplanet',
+    27: 'Gamesplanet',
+    28: 'Gamesload',
+    29: '2Game',
+    30: 'IndieGala',
+    31: 'Blizzard',
+    32: 'AllYouPlay',
+    33: 'DLGamer',
+    34: 'Noctre',
+    35: 'DreamGame',
+    36: 'Gamesplanet',
+    37: 'GameStop'
+};
+
 export class UI {
     constructor() {
         this.grid = document.querySelector('#game-grid') || document.querySelector('#favorites-list');
@@ -66,7 +106,7 @@ export class UI {
 
         const rows = deals.map(deal => `
       <tr>
-        <td>${deal.storeID}</td>
+        <td>${STORE_NAMES[deal.storeID] || `Store ${deal.storeID}`}</td>
         <td>$${deal.normalPrice}</td>
         <td><strong>$${deal.salePrice}</strong></td>
         <td><span class="discount-badge">${Math.round(deal.savings)}% OFF</span></td>
