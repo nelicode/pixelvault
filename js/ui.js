@@ -72,8 +72,11 @@ export class UI {
         const rating = game.rating ? game.rating.toFixed(1) : 'N/A';
         const isFav = Storage.isFavorite(game.id);
 
+        // Soporta tanto game.background_image (RAWG API) como game.image (favoritos guardados)
+        const imageUrl = game.background_image || game.image || '';
+
         card.innerHTML = `
-      <img src="${game.background_image || ''}" alt="${game.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x200?text=No+Image'">
+      <img src="${imageUrl}" alt="${game.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x200?text=No+Image'">
       <h3>${game.name} (${year})</h3>
       <p>Rating: ⭐ ${rating} / 5.0</p>
       <button class="favorite-btn ${isFav ? 'saved' : ''}" data-id="${game.id}" data-action="favorite">

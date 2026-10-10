@@ -25,7 +25,8 @@ import { Theme } from './theme.js';
                 if (favBtn) {
                     e.stopPropagation();
                     const id = Number(favBtn.dataset.id);
-                    const game = games.find(g => g.id === id) || { id };
+                    const game = games.find(g => g.id === id);
+                    if (!game) return;
                     if (Storage.isFavorite(id)) {
                         Storage.removeFavorite(id);
                         favBtn.textContent = '+ Favorite';
