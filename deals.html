@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelVault - Deals</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-left">
+            <h1 class="logo">PixelVault</h1>
+        </div>
+        <nav class="header-right" id="main-nav">
+            <a href="index.html">Home</a>
+            <a href="favorites.html">Favorites</a>
+            <a href="deals.html" class="active">Deals</a>
+            <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <section class="page-section">
+            <h2 class="page-title">Price Comparison</h2>
+            <div class="search-deal">
+                <input type="text" id="deal-search" placeholder="Search a game to compare prices...">
+                <button id="deal-search-btn" class="btn-primary">Search</button>
+            </div>
+            <div id="deals-table"></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>PixelVault © 2026 | Powered by RAWG &amp; CheapShark API</p>
+    </footer>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,3 +1,4 @@
+/* Mobile: sidebar hidden */
 .filters {
     display: none;
 }
@@ -5,14 +6,32 @@
 #menu-toggle {
     display: block;
     background: none;
-    border: none;
-    font-size: 1.5rem;
+    border: 2px solid #e0e0e0;
+    font-size: 1.3rem;
     cursor: pointer;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
 }
 
+.header-center {
+    display: none;
+}
+
+.filters.active {
+    display: block;
+}
+
+/* Tablet and up */
 @media (min-width: 768px) {
     #menu-toggle {
         display: none;
+    }
+
+    .header-center {
+        display: block;
+        flex: 1;
+        max-width: 400px;
+        margin: 0 1rem;
     }
 
     .main-container {
@@ -33,6 +52,11 @@
         grid-template-columns: repeat(2, 1fr);
         padding: 0;
     }
+
+    /* Favorites/Deals pages don't have sidebar */
+    main.main-container>.page-section {
+        grid-column: 1 / -1;
+    }
 }
 
 @media (min-width: 1024px) {
@@ -41,6 +65,27 @@
     }
 }
 
-.filters.active {
-    display: block;
+/* Mobile menu visible */
+@media (max-width: 767px) {
+    .header-right {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 1rem;
+        box-shadow: var(--shadow);
+        transform: translateY(-200%);
+        transition: transform 0.3s;
+        z-index: 99;
+    }
+
+    body.dark .header-right {
+        background: var(--card-bg-dark);
+    }
+
+    .header-right.open {
+        transform: translateY(0);
+    }
 }

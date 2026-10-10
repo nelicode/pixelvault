@@ -8,6 +8,8 @@
     --card-bg-light: #FFFFFF;
     --card-bg-dark: #1A1A2E;
     --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 8px 24px rgba(123, 44, 191, 0.2);
+    --border-radius: 8px;
 }
 
 * {
@@ -23,6 +25,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    transition: background 0.3s, color 0.3s;
 }
 
 body.dark {
@@ -30,6 +33,7 @@ body.dark {
     color: var(--text-light);
 }
 
+/* HEADER */
 .header {
     display: flex;
     align-items: center;
@@ -38,6 +42,9 @@ body.dark {
     background: white;
     box-shadow: var(--shadow);
     gap: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 body.dark .header {
@@ -47,15 +54,25 @@ body.dark .header {
 .logo {
     font-family: 'Orbitron', sans-serif;
     font-size: 1.5rem;
+    font-weight: 900;
     color: var(--accent-primary);
+    letter-spacing: 1px;
 }
 
 #search-input {
-    padding: 0.6rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    width: 300px;
+    padding: 0.7rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: var(--border-radius);
+    width: 100%;
+    max-width: 400px;
     font-size: 0.95rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+#search-input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
 }
 
 .header-right {
@@ -68,39 +85,95 @@ body.dark .header {
     text-decoration: none;
     color: inherit;
     font-weight: 600;
+    padding: 0.5rem 0.8rem;
+    border-radius: var(--border-radius);
+    transition: background 0.2s, color 0.2s;
 }
 
 .header-right a:hover {
     color: var(--accent-primary);
 }
 
+.header-right a.active {
+    color: var(--accent-primary);
+    background: rgba(123, 44, 191, 0.1);
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: inherit;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 0.5rem 0.8rem;
+    border-radius: var(--border-radius);
+}
+
+.btn-link:hover {
+    color: var(--accent-primary);
+}
+
+#theme-toggle {
+    background: none;
+    border: 2px solid #e0e0e0;
+    font-size: 1.2rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+#theme-toggle:hover {
+    border-color: var(--accent-primary);
+}
+
+/* BUTTONS */
 .btn-primary {
     background: var(--accent-primary);
     color: white;
     border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 6px;
+    padding: 0.7rem 1.4rem;
+    border-radius: var(--border-radius);
     cursor: pointer;
     font-weight: 600;
+    font-family: inherit;
+    transition: background 0.2s, transform 0.1s;
 }
 
 .btn-primary:hover {
     background: #5a1f8f;
 }
 
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+/* MAIN CONTAINER */
+.main-container {
+    flex: 1;
+    width: 100%;
+    padding: 1.5rem 1rem;
+}
+
+/* GRID */
 .game-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 1rem;
+    gap: 1.5rem;
+    padding: 1rem 0;
 }
 
+/* GAME CARD */
 .game-card {
     background: var(--card-bg-light);
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     padding: 1rem;
     box-shadow: var(--shadow);
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
 }
 
 body.dark .game-card {
@@ -109,35 +182,47 @@ body.dark .game-card {
 
 .game-card:hover {
     transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
 }
 
 .game-card img {
     width: 100%;
     height: 180px;
     object-fit: cover;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     background: #ddd;
+    margin-bottom: 0.8rem;
 }
 
 .game-card h3 {
     font-size: 1rem;
-    margin: 0.8rem 0 0.3rem;
+    margin-bottom: 0.4rem;
+    font-weight: 700;
 }
 
 .game-card p {
     font-size: 0.9rem;
     margin-bottom: 0.8rem;
+    color: #666;
+}
+
+body.dark .game-card p {
+    color: #aaa;
 }
 
 .favorite-btn {
     background: #1A1A2E;
     color: white;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1rem;
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.85rem;
+    font-weight: 600;
+    font-family: inherit;
     width: 100%;
+    margin-top: auto;
+    transition: background 0.2s;
 }
 
 .favorite-btn:hover {
@@ -149,15 +234,24 @@ body.dark .game-card {
     color: #000;
 }
 
+/* FILTERS SIDEBAR */
 .filters {
-    padding: 1rem;
+    padding: 1.5rem;
     background: var(--card-bg-light);
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     box-shadow: var(--shadow);
+    height: fit-content;
+    position: sticky;
+    top: 90px;
 }
 
 body.dark .filters {
     background: var(--card-bg-dark);
+}
+
+.filters h2 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
 }
 
 .filter-group {
@@ -166,23 +260,34 @@ body.dark .filters {
 
 .filter-group h3 {
     font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #888;
 }
 
 .filter-group label {
     display: block;
     font-size: 0.9rem;
-    margin: 0.3rem 0;
+    margin: 0.4rem 0;
+    cursor: pointer;
 }
 
+.filter-group input {
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+/* MODAL */
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.75);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    padding: 1rem;
 }
 
 .modal.hidden {
@@ -193,38 +298,162 @@ body.dark .filters {
     background: white;
     padding: 2rem;
     border-radius: 12px;
-    max-width: 600px;
-    width: 90%;
-    max-height: 80vh;
+    max-width: 650px;
+    width: 100%;
+    max-height: 85vh;
     overflow-y: auto;
     position: relative;
+    animation: modalIn 0.3s ease;
 }
 
 body.dark .modal-content {
     background: var(--card-bg-dark);
+    color: var(--text-light);
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .modal-close {
     position: absolute;
     top: 0.5rem;
-    right: 0.8rem;
+    right: 1rem;
     background: none;
     border: none;
     font-size: 2rem;
     cursor: pointer;
     color: inherit;
+    line-height: 1;
 }
 
+.modal-content h2 {
+    margin-bottom: 1rem;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.modal-content img {
+    width: 100%;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+}
+
+.modal-content p {
+    margin-bottom: 0.6rem;
+    line-height: 1.6;
+}
+
+/* FOOTER */
 .footer {
     margin-top: auto;
     text-align: center;
-    padding: 1rem;
+    padding: 1.2rem;
     background: white;
     font-size: 0.85rem;
     color: #666;
+    border-top: 1px solid #eee;
 }
 
 body.dark .footer {
     background: var(--card-bg-dark);
     color: #aaa;
+    border-top-color: #333;
+}
+
+/* LOADING + MESSAGES */
+.loading,
+.no-results {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #888;
+    font-size: 1rem;
+    grid-column: 1 / -1;
+}
+
+/* PAGE SECTIONS */
+.page-section {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.page-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-primary);
+}
+
+/* DEALS */
+.search-deal {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.search-deal input {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.7rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: var(--border-radius);
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+
+.deals-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg-light);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+body.dark .deals-table {
+    background: var(--card-bg-dark);
+}
+
+.deals-table th,
+.deals-table td {
+    padding: 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+}
+
+body.dark .deals-table th,
+body.dark .deals-table td {
+    border-bottom-color: #333;
+}
+
+.deals-table th {
+    background: var(--accent-primary);
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.deals-table tr:hover {
+    background: rgba(123, 44, 191, 0.05);
+}
+
+.discount-badge {
+    background: var(--accent-secondary);
+    color: #000;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.8rem;
 }

@@ -7,7 +7,8 @@
     <meta name="description" content="PixelVault - Discover, compare, and save your favorite video games">
     <title>PixelVault - Discover Video Games</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@700&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/responsive.css">
@@ -22,10 +23,10 @@
             <input type="search" id="search-input" placeholder="Search video games..." aria-label="Search video games">
         </div>
         <nav class="header-right" id="main-nav">
-            <a href="index.html">Home</a>
+            <a href="index.html" class="active">Home</a>
             <a href="favorites.html">Favorites</a>
             <a href="deals.html">Deals</a>
-            <button id="surprise-btn">Surprise Me</button>
+            <button id="surprise-btn" class="btn-link">Surprise Me</button>
             <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
         </nav>
         <button id="menu-toggle" aria-label="Toggle menu">☰</button>
@@ -39,17 +40,21 @@
                 <label><input type="checkbox" value="action"> Action</label>
                 <label><input type="checkbox" value="rpg"> RPG</label>
                 <label><input type="checkbox" value="adventure"> Adventure</label>
+                <label><input type="checkbox" value="shooter"> Shooter</label>
             </div>
             <div class="filter-group">
                 <h3>Platform</h3>
-                <label><input type="checkbox" value="pc"> PC</label>
-                <label><input type="checkbox" value="playstation"> PlayStation</label>
-                <label><input type="checkbox" value="xbox"> Xbox</label>
+                <label><input type="checkbox" value="4"> PC</label>
+                <label><input type="checkbox" value="18"> PlayStation</label>
+                <label><input type="checkbox" value="1"> Xbox</label>
+                <label><input type="checkbox" value="7"> Nintendo</label>
             </div>
             <button id="apply-filters" class="btn-primary">Apply Filters</button>
         </aside>
 
-        <main id="game-grid" class="game-grid"></main>
+        <main id="game-grid" class="game-grid" aria-live="polite">
+            <p class="loading">Loading games...</p>
+        </main>
     </div>
 
     <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
