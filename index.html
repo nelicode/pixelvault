@@ -37,10 +37,10 @@
             <h2>Filters</h2>
             <div class="filter-group">
                 <h3>Genre</h3>
-                <label><input type="checkbox" value="action"> Action</label>
-                <label><input type="checkbox" value="rpg"> RPG</label>
-                <label><input type="checkbox" value="adventure"> Adventure</label>
-                <label><input type="checkbox" value="shooter"> Shooter</label>
+                <label><input type="checkbox" value="4"> Action</label>
+                <label><input type="checkbox" value="5"> RPG</label>
+                <label><input type="checkbox" value="3"> Adventure</label>
+                <label><input type="checkbox" value="2"> Shooter</label>
             </div>
             <div class="filter-group">
                 <h3>Platform</h3>
@@ -48,6 +48,22 @@
                 <label><input type="checkbox" value="18"> PlayStation</label>
                 <label><input type="checkbox" value="1"> Xbox</label>
                 <label><input type="checkbox" value="7"> Nintendo</label>
+            </div>
+            <div class="filter-group">
+                <h3>Release Year</h3>
+                <input type="number" id="year-from" placeholder="From" min="1970" max="2026"
+                    style="width: 47%; padding: 0.5rem; border: 2px solid #e0e0e0; border-radius: 6px; margin-right: 4%;">
+                <input type="number" id="year-to" placeholder="To" min="1970" max="2026"
+                    style="width: 47%; padding: 0.5rem; border: 2px solid #e0e0e0; border-radius: 6px;">
+            </div>
+            <div class="filter-group">
+                <h3>Minimum Rating</h3>
+                <input type="range" id="rating-min" min="0" max="5" step="0.5" value="0" style="width: 100%;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-top: 0.3rem;">
+                    <span>0.0</span>
+                    <span id="rating-value" style="font-weight: 700; color: #7B2CBF;">0.0</span>
+                    <span>5.0</span>
+                </div>
             </div>
             <button id="apply-filters" class="btn-primary">Apply Filters</button>
         </aside>

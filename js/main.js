@@ -87,11 +87,38 @@ import { Theme } from './theme.js';
             });
 
             document.querySelector('#apply-filters')?.addEventListener('click', async () => {
-                const genres = Array.from(document.querySelectorAll('.filter-group input[type="checkbox"]:checked'))
+                const allChecked = Array.from(document.querySelectorAll('.filter-group input[type="checkbox"]:checked'))
                     .map(cb => cb.value);
+
+                const genreIds = allChecked.filter(v => ['4', '5', '3', '2'].includes(v)).join(',');
+                const platformIds = allChecked.filter(v => ['4', '18', '1', '7'].includes(v)).join(',');
+
+                const yearFrom = document.querySelector('#year-from')?.value;
+                const yearTo = document.querySelector('#year-to')?.value;
+                const minRating = parseFloat(document.querySelector('#rating-min')?.value) || 0;
+
                 const query = document.querySelector('#search-input')?.value || '';
-                const results = await api.searchGames(query, { genres: genres.join(',') });
-                ui.renderGames(results);
+                const filters = {};
+
+                if (genreIds) filters.genres = genreIds;
+                if (platformIds) filters.platforms = platformIds;
+
+                if (yearFrom && yearTo) {
+                    filters.dates = `${yearFrom}-01-01,${yearTo}-12-31`;
+                } else if (yearFrom) {
+                    filters.dates = `${yearFrom}-01-01,${new Date().getFullYear()}-12-31`;
+                } else if (yearTo) {
+                    filters.dates = `1970-01-01,${yearTo}-12-31`;
+                }
+
+                const results = await api.searchGames(query, filters);
+                const filtered = results.filter(g => (g.rating || 0) >= minRating);
+                ui.renderGames(filtered);
+            });
+
+            document.querySelector('#rating-min')?.addEventListener('input', (e) => {
+                const span = document.querySelector('#rating-value');
+                if (span) span.textContent = parseFloat(e.target.value).toFixed(1);
             });
         }
 
