@@ -17,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/nelicode/pixelvault/issues"
   },
-  "homepage": "https://github.com/nelicode/pixelvault#readme"
+  "homepage": "https://github.com/nelicode/pixelvault#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0"
+  }
 }
