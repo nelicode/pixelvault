@@ -40,6 +40,9 @@ import { Theme } from './theme.js';
                     const id = Number(card.dataset.gameId);
                     const details = await api.getGameDetails(id);
                     if (details) {
+                        // ✅ NEW: Save to viewing history
+                        Storage.addToHistory(details);
+
                         const tagsHTML = details.tags?.slice(0, 8).map(t => `<span class="tag">${t.name}</span>`).join(' ') || 'N/A';
                         const genresHTML = details.genres?.map(g => g.name).join(', ') || 'N/A';
                         const platformsHTML = details.platforms?.map(p => p.platform.name).join(', ') || 'N/A';
@@ -90,6 +93,9 @@ import { Theme } from './theme.js';
                     const pick = random[Math.floor(Math.random() * random.length)];
                     const details = await api.getGameDetails(pick.id);
                     if (details) {
+                        // ✅ NEW: Save to viewing history
+                        Storage.addToHistory(details);
+
                         const tagsHTML = details.tags?.slice(0, 8).map(t => `<span class="tag">${t.name}</span>`).join(' ') || 'N/A';
                         const genresHTML = details.genres?.map(g => g.name).join(', ') || 'N/A';
                         const platformsHTML = details.platforms?.map(p => p.platform.name).join(', ') || 'N/A';
@@ -112,8 +118,10 @@ import { Theme } from './theme.js';
                 const allChecked = Array.from(document.querySelectorAll('.filter-group input[type="checkbox"]:checked'))
                     .map(cb => cb.value);
 
-                const genreIds = allChecked.filter(v => ['4', '5', '3', '2'].includes(v)).join(',');
-                const platformIds = allChecked.filter(v => ['4', '18', '1', '7'].includes(v)).join(',');
+                // ✅ UPDATED: More genre IDs (Action, RPG, Adventure, Shooter, Strategy, Simulation, Puzzle, Sports, Racing, Indie)
+                const genreIds = allChecked.filter(v => ['4', '5', '3', '2', '10', '14', '7', '15', '1', '51'].includes(v)).join(',');
+                // ✅ UPDATED: More platform IDs (PC, PlayStation, Xbox, Nintendo, iOS, Android, Mac, Linux)
+                const platformIds = allChecked.filter(v => ['4', '18', '1', '7', '3', '21', '5', '6'].includes(v)).join(',');
 
                 const yearFrom = document.querySelector('#year-from')?.value;
                 const yearTo = document.querySelector('#year-to')?.value;
@@ -133,6 +141,9 @@ import { Theme } from './theme.js';
                     filters.dates = `1970-01-01,${yearTo}-12-31`;
                 }
 
+                // ✅ NEW: Save last search and filters to localStorage
+                Storage.saveLastSearch({ query, filters, timestamp: Date.now() });
+
                 const results = await api.searchGames(query, filters);
                 const filtered = results.filter(g => (g.rating || 0) >= minRating);
                 ui.renderGames(filtered);
@@ -142,6 +153,13 @@ import { Theme } from './theme.js';
                 const span = document.querySelector('#rating-value');
                 if (span) span.textContent = parseFloat(e.target.value).toFixed(1);
             });
+
+            // ✅ NEW: Restore last search when returning to the page
+            const lastSearch = Storage.getLastSearch();
+            if (lastSearch && lastSearch.query) {
+                const searchInput = document.querySelector('#search-input');
+                if (searchInput) searchInput.value = lastSearch.query;
+            }
         }
 
         // ============= FAVORITES PAGE =============
