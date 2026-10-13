@@ -160,3 +160,67 @@ body,
 .discount-badge:hover {
     transform: scale(1.05);
 }
+
+/* ==================================================== */
+/* ============= NEW: W07 ADDITIONS ================== */
+/* ==================================================== */
+
+/* ✅ NEW: Skeleton loading blocks (for individual elements) */
+.skeleton {
+    background: linear-gradient(90deg,
+            rgba(200, 200, 200, 0.3) 25%,
+            rgba(200, 200, 200, 0.5) 50%,
+            rgba(200, 200, 200, 0.3) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+    min-height: 200px;
+}
+
+body.dark .skeleton {
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.05) 25%,
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(255, 255, 255, 0.05) 75%);
+    background-size: 200% 100%;
+}
+
+/* ✅ NEW: Hover effects on game card images */
+.game-card img {
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.game-card:hover img {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+/* ✅ NEW: Tag hover */
+.tag {
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.tag:hover {
+    transform: translateY(-2px);
+}
+
+/* ✅ NEW: Smooth scroll for the page */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ✅ NEW: Focus visible animations */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    transition: outline-offset 0.15s ease;
+}
+
+/* ✅ NEW: Modal close button rotation on hover */
+.modal-close {
+    transition: transform 0.2s ease;
+}
+
+.modal-close:hover {
+    transform: rotate(90deg);
+}

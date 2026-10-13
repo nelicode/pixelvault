@@ -40,7 +40,6 @@ import { Theme } from './theme.js';
                     const id = Number(card.dataset.gameId);
                     const details = await api.getGameDetails(id);
                     if (details) {
-                        // ✅ NEW: Save to viewing history
                         Storage.addToHistory(details);
 
                         const tagsHTML = details.tags?.slice(0, 8).map(t => `<span class="tag">${t.name}</span>`).join(' ') || 'N/A';
@@ -51,6 +50,10 @@ import { Theme } from './theme.js';
                         const websiteHTML = details.website
                             ? `<a href="${details.website}" target="_blank" rel="noopener">Visit official site</a>`
                             : 'N/A';
+
+                        const fullDescription = details.description_raw || 'No description available.';
+                        const shortDescription = fullDescription.slice(0, 300);
+                        const hasMore = fullDescription.length > 300;
 
                         ui.showModal(`
                             <h2 id="modal-title">${details.name}</h2>
@@ -65,9 +68,29 @@ import { Theme } from './theme.js';
                             <p><strong>Publisher:</strong> ${publishersHTML}</p>
                             <p><strong>Tags:</strong> ${tagsHTML}</p>
                             <p><strong>Website:</strong> ${websiteHTML}</p>
-                            <p style="margin-top: 1rem;">${(details.description_raw || 'No description available.').slice(0, 500)}...</p>
+                            <div style="margin-top: 1rem;">
+                                <p id="modal-description">${shortDescription}${hasMore ? '...' : ''}</p>
+                                ${hasMore ? '<button class="btn-link" id="read-more-btn" style="color: var(--accent-primary); font-weight: 600; padding: 0.5rem 0; background: none; border: none; cursor: pointer;">Read more ↓</button>' : ''}
+                            </div>
                             <button class="btn-primary" id="view-deals-btn" data-name="${details.name}" style="margin-top: 1rem;">Compare Prices</button>
                         `);
+
+                        // ✅ Read more button
+                        const readMoreBtn = document.querySelector('#read-more-btn');
+                        readMoreBtn?.addEventListener('click', () => {
+                            const desc = document.querySelector('#modal-description');
+                            if (desc) {
+                                const isExpanded = desc.dataset.expanded === 'true';
+                                if (isExpanded) {
+                                    desc.textContent = shortDescription + '...';
+                                    readMoreBtn.textContent = 'Read more ↓';
+                                } else {
+                                    desc.textContent = fullDescription;
+                                    readMoreBtn.textContent = 'Read less ↑';
+                                }
+                                desc.dataset.expanded = isExpanded ? 'false' : 'true';
+                            }
+                        });
 
                         document.querySelector('#view-deals-btn')?.addEventListener('click', () => {
                             window.location.href = `deals.html?game=${encodeURIComponent(details.name)}`;
@@ -93,7 +116,6 @@ import { Theme } from './theme.js';
                     const pick = random[Math.floor(Math.random() * random.length)];
                     const details = await api.getGameDetails(pick.id);
                     if (details) {
-                        // ✅ NEW: Save to viewing history
                         Storage.addToHistory(details);
 
                         const tagsHTML = details.tags?.slice(0, 8).map(t => `<span class="tag">${t.name}</span>`).join(' ') || 'N/A';
@@ -118,9 +140,7 @@ import { Theme } from './theme.js';
                 const allChecked = Array.from(document.querySelectorAll('.filter-group input[type="checkbox"]:checked'))
                     .map(cb => cb.value);
 
-                // ✅ UPDATED: More genre IDs (Action, RPG, Adventure, Shooter, Strategy, Simulation, Puzzle, Sports, Racing, Indie)
                 const genreIds = allChecked.filter(v => ['4', '5', '3', '2', '10', '14', '7', '15', '1', '51'].includes(v)).join(',');
-                // ✅ UPDATED: More platform IDs (PC, PlayStation, Xbox, Nintendo, iOS, Android, Mac, Linux)
                 const platformIds = allChecked.filter(v => ['4', '18', '1', '7', '3', '21', '5', '6'].includes(v)).join(',');
 
                 const yearFrom = document.querySelector('#year-from')?.value;
@@ -141,7 +161,6 @@ import { Theme } from './theme.js';
                     filters.dates = `1970-01-01,${yearTo}-12-31`;
                 }
 
-                // ✅ NEW: Save last search and filters to localStorage
                 Storage.saveLastSearch({ query, filters, timestamp: Date.now() });
 
                 const results = await api.searchGames(query, filters);
@@ -154,7 +173,6 @@ import { Theme } from './theme.js';
                 if (span) span.textContent = parseFloat(e.target.value).toFixed(1);
             });
 
-            // ✅ NEW: Restore last search when returning to the page
             const lastSearch = Storage.getLastSearch();
             if (lastSearch && lastSearch.query) {
                 const searchInput = document.querySelector('#search-input');
@@ -203,9 +221,18 @@ import { Theme } from './theme.js';
             if (e.target.id === 'modal') ui.hideModal();
         });
 
-        document.querySelector('#menu-toggle')?.addEventListener('click', () => {
-            document.querySelector('#main-nav')?.classList.toggle('open');
+        // ✅ NEW: Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') ui.hideModal();
         });
+
+        // ✅ UPDATED: Toggle mobile menu with aria-expanded
+        document.querySelector('#menu-toggle')?.addEventListener('click', (e) => {
+            const nav = document.querySelector('#main-nav');
+            const isOpen = nav?.classList.toggle('open');
+            e.currentTarget.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
     } catch (error) {
         console.error('Application error:', error);
     }
