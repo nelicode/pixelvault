@@ -40,17 +40,31 @@ import { Theme } from './theme.js';
                     const id = Number(card.dataset.gameId);
                     const details = await api.getGameDetails(id);
                     if (details) {
+                        const tagsHTML = details.tags?.slice(0, 8).map(t => `<span class="tag">${t.name}</span>`).join(' ') || 'N/A';
+                        const genresHTML = details.genres?.map(g => g.name).join(', ') || 'N/A';
+                        const platformsHTML = details.platforms?.map(p => p.platform.name).join(', ') || 'N/A';
+                        const developersHTML = details.developers?.map(d => d.name).join(', ') || 'N/A';
+                        const publishersHTML = details.publishers?.map(p => p.name).join(', ') || 'N/A';
+                        const websiteHTML = details.website
+                            ? `<a href="${details.website}" target="_blank" rel="noopener">Visit official site</a>`
+                            : 'N/A';
+
                         ui.showModal(`
-              <h2 id="modal-title">${details.name}</h2>
-              <img src="${details.background_image || ''}" alt="${details.name}">
-              <p><strong>Released:</strong> ${details.released || 'N/A'}</p>
-              <p><strong>Rating:</strong> ⭐ ${details.rating || 'N/A'} / 5.0</p>
-              <p><strong>Metacritic:</strong> ${details.metacritic || 'N/A'}</p>
-              <p><strong>Developer:</strong> ${details.developers?.map(d => d.name).join(', ') || 'N/A'}</p>
-              <p><strong>Publisher:</strong> ${details.publishers?.map(p => p.name).join(', ') || 'N/A'}</p>
-              <p>${(details.description_raw || 'No description available.').slice(0, 500)}...</p>
-              <button class="btn-primary" id="view-deals-btn" data-name="${details.name}">Compare Prices</button>
-            `);
+                            <h2 id="modal-title">${details.name}</h2>
+                            <img src="${details.background_image || ''}" alt="${details.name}">
+                            <p><strong>Released:</strong> ${details.released || 'N/A'}</p>
+                            <p><strong>Rating:</strong> ⭐ ${details.rating || 'N/A'} / 5.0</p>
+                            <p><strong>Metacritic:</strong> ${details.metacritic || 'N/A'}</p>
+                            <p><strong>Playtime:</strong> ${details.playtime ? details.playtime + ' hours' : 'N/A'}</p>
+                            <p><strong>Genres:</strong> ${genresHTML}</p>
+                            <p><strong>Platforms:</strong> ${platformsHTML}</p>
+                            <p><strong>Developer:</strong> ${developersHTML}</p>
+                            <p><strong>Publisher:</strong> ${publishersHTML}</p>
+                            <p><strong>Tags:</strong> ${tagsHTML}</p>
+                            <p><strong>Website:</strong> ${websiteHTML}</p>
+                            <p style="margin-top: 1rem;">${(details.description_raw || 'No description available.').slice(0, 500)}...</p>
+                            <button class="btn-primary" id="view-deals-btn" data-name="${details.name}" style="margin-top: 1rem;">Compare Prices</button>
+                        `);
 
                         document.querySelector('#view-deals-btn')?.addEventListener('click', () => {
                             window.location.href = `deals.html?game=${encodeURIComponent(details.name)}`;
@@ -76,13 +90,20 @@ import { Theme } from './theme.js';
                     const pick = random[Math.floor(Math.random() * random.length)];
                     const details = await api.getGameDetails(pick.id);
                     if (details) {
+                        const tagsHTML = details.tags?.slice(0, 8).map(t => `<span class="tag">${t.name}</span>`).join(' ') || 'N/A';
+                        const genresHTML = details.genres?.map(g => g.name).join(', ') || 'N/A';
+                        const platformsHTML = details.platforms?.map(p => p.platform.name).join(', ') || 'N/A';
+
                         ui.showModal(`
-              <h2 id="modal-title">🎲 Surprise: ${details.name}</h2>
-              <img src="${details.background_image || ''}" alt="${details.name}">
-              <p><strong>Released:</strong> ${details.released || 'N/A'}</p>
-              <p><strong>Rating:</strong> ⭐ ${details.rating || 'N/A'} / 5.0</p>
-              <p>${(details.description_raw || '').slice(0, 500)}...</p>
-            `);
+                            <h2 id="modal-title">🎲 Surprise: ${details.name}</h2>
+                            <img src="${details.background_image || ''}" alt="${details.name}">
+                            <p><strong>Released:</strong> ${details.released || 'N/A'}</p>
+                            <p><strong>Rating:</strong> ⭐ ${details.rating || 'N/A'} / 5.0</p>
+                            <p><strong>Genres:</strong> ${genresHTML}</p>
+                            <p><strong>Platforms:</strong> ${platformsHTML}</p>
+                            <p><strong>Tags:</strong> ${tagsHTML}</p>
+                            <p style="margin-top: 1rem;">${(details.description_raw || '').slice(0, 500)}...</p>
+                        `);
                     }
                 }
             });

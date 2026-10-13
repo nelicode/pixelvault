@@ -1,0 +1,162 @@
+/* ============= CARD ANIMATIONS ============= */
+
+/* Fade in + slide up when cards appear */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.game-card {
+    animation: fadeInUp 0.4s ease-out;
+}
+
+/* Stagger the animation for each card */
+.game-card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.game-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.game-card:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.game-card:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.game-card:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.game-card:nth-child(6) {
+    animation-delay: 0.3s;
+}
+
+/* ============= MODAL ANIMATIONS ============= */
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal:not(.hidden) {
+    animation: modalFadeIn 0.2s ease-out;
+}
+
+.modal:not(.hidden) .modal-content {
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+/* ============= BUTTON ANIMATIONS ============= */
+
+.favorite-btn,
+.btn-primary {
+    transition: all 0.2s ease;
+}
+
+.favorite-btn:active,
+.btn-primary:active {
+    transform: scale(0.96);
+}
+
+/* Favorite button pulse when saved */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.favorite-btn.saved {
+    animation: pulse 0.3s ease;
+}
+
+/* ============= LOADING SKELETON ============= */
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.loading {
+    background: linear-gradient(90deg,
+            #f0f0f0 25%,
+            #e0e0e0 50%,
+            #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+    padding: 3rem;
+    text-align: center;
+    color: #979696;
+}
+
+body.dark .loading {
+    background: linear-gradient(90deg,
+            #1a1a2e 25%,
+            #252542 50%,
+            #1a1a2e 75%);
+    background-size: 200% 100%;
+}
+
+/* ============= THEME TRANSITIONS ============= */
+
+body,
+.header,
+.game-card,
+.filters,
+.footer,
+.modal-content,
+.deals-table {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* ============= DISCOUNT BADGE ============= */
+
+.discount-badge {
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.discount-badge:hover {
+    transform: scale(1.05);
+}

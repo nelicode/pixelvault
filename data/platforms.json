@@ -1,0 +1,104 @@
+{
+    "platforms": [
+        {
+            "id": 4,
+            "name": "PC",
+            "slug": "pc"
+        },
+        {
+            "id": 18,
+            "name": "PlayStation",
+            "slug": "playstation"
+        },
+        {
+            "id": 1,
+            "name": "Xbox",
+            "slug": "xbox"
+        },
+        {
+            "id": 7,
+            "name": "Nintendo",
+            "slug": "nintendo"
+        },
+        {
+            "id": 3,
+            "name": "iOS",
+            "slug": "ios"
+        },
+        {
+            "id": 21,
+            "name": "Android",
+            "slug": "android"
+        },
+        {
+            "id": 5,
+            "name": "Apple Macintosh",
+            "slug": "mac"
+        },
+        {
+            "id": 6,
+            "name": "Linux",
+            "slug": "linux"
+        },
+        {
+            "id": 186,
+            "name": "Xbox Series S/X",
+            "slug": "xbox-series"
+        },
+        {
+            "id": 187,
+            "name": "PlayStation 5",
+            "slug": "playstation5"
+        },
+        {
+            "id": 8,
+            "name": "Nintendo 3DS",
+            "slug": "nintendo-3ds"
+        },
+        {
+            "id": 9,
+            "name": "Nintendo DS",
+            "slug": "nintendo-ds"
+        },
+        {
+            "id": 13,
+            "name": "Nintendo DSi",
+            "slug": "nintendo-dsi"
+        },
+        {
+            "id": 10,
+            "name": "Wii U",
+            "slug": "wii-u"
+        },
+        {
+            "id": 11,
+            "name": "Wii",
+            "slug": "wii"
+        },
+        {
+            "id": 12,
+            "name": "PlayStation 3",
+            "slug": "playstation3"
+        },
+        {
+            "id": 14,
+            "name": "Xbox 360",
+            "slug": "xbox360"
+        },
+        {
+            "id": 16,
+            "name": "PlayStation 4",
+            "slug": "playstation4"
+        },
+        {
+            "id": 15,
+            "name": "PlayStation 2",
+            "slug": "playstation2"
+        },
+        {
+            "id": 27,
+            "name": "PlayStation",
+            "slug": "playstation1"
+        }
+    ]
+}

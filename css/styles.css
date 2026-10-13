@@ -457,3 +457,19 @@ body.dark .deals-table td {
     font-weight: 700;
     font-size: 0.8rem;
 }
+.tag {
+    display: inline-block;
+    background: var(--accent-primary);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    margin: 0.2rem 0.3rem 0.2rem 0;
+    font-weight: 600;
+    text-transform: lowercase;
+}
+
+body.dark .tag {
+    background: var(--accent-secondary);
+    color: #000;
+}
