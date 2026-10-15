@@ -3,6 +3,14 @@ import { UI } from './ui.js';
 import { Storage } from './storage.js';
 import { Theme } from './theme.js';
 
+// ✅ Placeholder para juegos sin imagen
+const PLACEHOLDER_IMAGE = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">' +
+    '<rect width="400" height="300" fill="#e0e0e0"/>' +
+    '<text x="200" y="150" font-family="Arial, sans-serif" font-size="20" fill="#999" text-anchor="middle" dominant-baseline="middle">No Image</text>' +
+    '</svg>'
+);
+
 (async () => {
     try {
         const api = new GameAPI();
@@ -55,9 +63,12 @@ import { Theme } from './theme.js';
                         const shortDescription = fullDescription.slice(0, 300);
                         const hasMore = fullDescription.length > 300;
 
+                        // ✅ Usa imagen por defecto si no hay background_image
+                        const imageSrc = details.background_image || PLACEHOLDER_IMAGE;
+
                         ui.showModal(`
                             <h2 id="modal-title">${details.name}</h2>
-                            <img src="${details.background_image || ''}" alt="${details.name}">
+                            <img src="${imageSrc}" alt="${details.name}">
                             <p><strong>Released:</strong> ${details.released || 'N/A'}</p>
                             <p><strong>Rating:</strong> ⭐ ${details.rating || 'N/A'} / 5.0</p>
                             <p><strong>Metacritic:</strong> ${details.metacritic || 'N/A'}</p>
@@ -75,7 +86,6 @@ import { Theme } from './theme.js';
                             <button class="btn-primary" id="view-deals-btn" data-name="${details.name}" style="margin-top: 1rem;">Compare Prices</button>
                         `);
 
-                        // ✅ Read more button
                         const readMoreBtn = document.querySelector('#read-more-btn');
                         readMoreBtn?.addEventListener('click', () => {
                             const desc = document.querySelector('#modal-description');
@@ -122,9 +132,11 @@ import { Theme } from './theme.js';
                         const genresHTML = details.genres?.map(g => g.name).join(', ') || 'N/A';
                         const platformsHTML = details.platforms?.map(p => p.platform.name).join(', ') || 'N/A';
 
+                        const imageSrc = details.background_image || PLACEHOLDER_IMAGE;
+
                         ui.showModal(`
                             <h2 id="modal-title">🎲 Surprise: ${details.name}</h2>
-                            <img src="${details.background_image || ''}" alt="${details.name}">
+                            <img src="${imageSrc}" alt="${details.name}">
                             <p><strong>Released:</strong> ${details.released || 'N/A'}</p>
                             <p><strong>Rating:</strong> ⭐ ${details.rating || 'N/A'} / 5.0</p>
                             <p><strong>Genres:</strong> ${genresHTML}</p>
@@ -136,12 +148,17 @@ import { Theme } from './theme.js';
                 }
             });
 
+            // ✅ FILTROS CORREGIDOS — usan data-filter del HTML
             document.querySelector('#apply-filters')?.addEventListener('click', async () => {
-                const allChecked = Array.from(document.querySelectorAll('.filter-group input[type="checkbox"]:checked'))
-                    .map(cb => cb.value);
+                const genreChecked = document.querySelectorAll(
+                    '.filter-group[data-filter="genre"] input[type="checkbox"]:checked'
+                );
+                const platformChecked = document.querySelectorAll(
+                    '.filter-group[data-filter="platform"] input[type="checkbox"]:checked'
+                );
 
-                const genreIds = allChecked.filter(v => ['4', '5', '3', '2', '10', '14', '7', '15', '1', '51'].includes(v)).join(',');
-                const platformIds = allChecked.filter(v => ['4', '18', '1', '7', '3', '21', '5', '6'].includes(v)).join(',');
+                const genreIds = Array.from(genreChecked).map(cb => cb.value).join(',');
+                const platformIds = Array.from(platformChecked).map(cb => cb.value).join(',');
 
                 const yearFrom = document.querySelector('#year-from')?.value;
                 const yearTo = document.querySelector('#year-to')?.value;
@@ -221,12 +238,10 @@ import { Theme } from './theme.js';
             if (e.target.id === 'modal') ui.hideModal();
         });
 
-        // ✅ NEW: Close modal with Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') ui.hideModal();
         });
 
-        // ✅ UPDATED: Toggle mobile menu with aria-expanded
         document.querySelector('#menu-toggle')?.addEventListener('click', (e) => {
             const nav = document.querySelector('#main-nav');
             const isOpen = nav?.classList.toggle('open');

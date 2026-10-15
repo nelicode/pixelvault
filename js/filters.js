@@ -7,14 +7,16 @@ export class Filters {
         this.minRating = 0;
     }
 
-    // Lee todos los filtros activos del DOM
     collectFromDOM() {
-        const allChecked = Array.from(
-            document.querySelectorAll('.filter-group input[type="checkbox"]:checked')
-        ).map(cb => cb.value);
+        const genreCheckboxes = document.querySelectorAll(
+            '.filter-group[data-filter="genre"] input[type="checkbox"]:checked'
+        );
+        const platformCheckboxes = document.querySelectorAll(
+            '.filter-group[data-filter="platform"] input[type="checkbox"]:checked'
+        );
 
-        this.genres = allChecked.filter(v => ['4', '5', '3', '2'].includes(v));
-        this.platforms = allChecked.filter(v => ['4', '18', '1', '7'].includes(v));
+        this.genres = Array.from(genreCheckboxes).map(cb => cb.value);
+        this.platforms = Array.from(platformCheckboxes).map(cb => cb.value);
 
         this.yearFrom = document.querySelector('#year-from')?.value || null;
         this.yearTo = document.querySelector('#year-to')?.value || null;
@@ -23,7 +25,6 @@ export class Filters {
         return this;
     }
 
-    // Convierte los filtros al formato que espera la API RAWG
     toApiParams(query = '') {
         const params = {};
         if (query) params.search = query;
@@ -41,13 +42,11 @@ export class Filters {
         return params;
     }
 
-    // Filtra resultados por rating (RAWG no filtra por rating en la API)
     applyRatingFilter(games) {
         if (!this.minRating) return games;
         return games.filter(g => (g.rating || 0) >= this.minRating);
     }
 
-    // Limpia todos los filtros
     reset() {
         document.querySelectorAll('.filter-group input[type="checkbox"]').forEach(cb => {
             cb.checked = false;

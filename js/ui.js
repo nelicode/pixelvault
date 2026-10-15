@@ -1,5 +1,13 @@
 import { Storage } from './storage.js';
 
+// ✅ Placeholder SVG inline (funciona sin internet)
+const PLACEHOLDER_IMAGE = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">' +
+    '<rect width="400" height="300" fill="#e0e0e0"/>' +
+    '<text x="200" y="150" font-family="Arial, sans-serif" font-size="20" fill="#999" text-anchor="middle" dominant-baseline="middle">No Image</text>' +
+    '</svg>'
+);
+
 const STORE_NAMES = {
     1: 'Steam',
     2: 'GamersGate',
@@ -72,11 +80,11 @@ export class UI {
         const rating = game.rating ? game.rating.toFixed(1) : 'N/A';
         const isFav = Storage.isFavorite(game.id);
 
-        // Soporta tanto game.background_image (RAWG API) como game.image (favoritos guardados)
-        const imageUrl = game.background_image || game.image || '';
+        // ✅ Usa placeholder SVG si no hay imagen
+        const imageUrl = game.background_image || game.image || PLACEHOLDER_IMAGE;
 
         card.innerHTML = `
-      <img src="${imageUrl}" alt="${game.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x200?text=No+Image'">
+      <img src="${imageUrl}" alt="${game.name}" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER_IMAGE}'">
       <h3>${game.name} (${year})</h3>
       <p>Rating: ⭐ ${rating} / 5.0</p>
       <button class="favorite-btn ${isFav ? 'saved' : ''}" data-id="${game.id}" data-action="favorite">
